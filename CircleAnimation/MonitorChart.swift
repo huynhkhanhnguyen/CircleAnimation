@@ -47,7 +47,7 @@ private class MonitorChartLayer: CAShapeLayer {
 class MonitorChart: UIView {
   var circleLayer: CAShapeLayer!
   var lineWidth = CGFloat(50)
-  var animationDuration = 1.5 //secconds
+  var animationDuration = 1.5 //seconds
 
   private var currentAnimationIndex = 0
   private var chartLayers: [MonitorChartLayer] = []
