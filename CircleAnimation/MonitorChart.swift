@@ -19,6 +19,23 @@ private class MonitorChartLayer: CAShapeLayer {
   var animation: CAAnimation?
   var endPoint: CGFloat = 0.0
 
+  class func createLayerForSegment(segment: MonitorChartSegment, path: UIBezierPath, lineWidth: CGFloat) -> MonitorChartLayer {
+    let circleLayer = MonitorChartLayer()
+    circleLayer.path = path.CGPath
+    circleLayer.fillColor = UIColor.clearColor().CGColor
+    circleLayer.strokeColor = segment.color.CGColor
+    circleLayer.lineWidth = lineWidth
+    circleLayer.strokeEnd = 0.0
+    circleLayer.monitorChartSegment = segment
+    return circleLayer
+  }
+
+  func updateWithAnimation(animation: CABasicAnimation) {
+    strokeStart = animation.fromValue as! CGFloat
+    endPoint = animation.toValue as! CGFloat
+    self.animation = animation
+  }
+
   func performAnimation() {
     removeAllAnimations()
     if let animation = animation {
@@ -45,19 +62,9 @@ class MonitorChart: UIView {
     let circlePath = UIBezierPath(arcCenter: arcCenter, radius: radius - lineWidth / 2, startAngle: CGFloat(-M_PI), endAngle: CGFloat(0), clockwise: true)
 
     for segment in segments {
-      let circleLayer = MonitorChartLayer()
-      circleLayer.path = circlePath.CGPath
-      circleLayer.fillColor = UIColor.clearColor().CGColor
-      circleLayer.strokeColor = segment.color.CGColor
-      circleLayer.lineWidth = lineWidth
-      circleLayer.strokeEnd = 0.0
-      circleLayer.monitorChartSegment = segment
-
+      let circleLayer = MonitorChartLayer.createLayerForSegment(segment, path: circlePath, lineWidth: lineWidth)
       let animation = createStrokeEndAnimationForSegment(segment, minValue: minValue, maxValue: maxValue)
-      circleLayer.strokeStart = animation.fromValue as! CGFloat
-      circleLayer.endPoint = animation.toValue as! CGFloat
-      circleLayer.animation = animation
-
+      circleLayer.updateWithAnimation(animation)
       chartLayers.append(circleLayer)
     }
   }
