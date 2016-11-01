@@ -16,12 +16,14 @@ struct MonitorChartSegment {
 
 private class MonitorChartLayer: CAShapeLayer {
   var monitorChartSegment: MonitorChartSegment!
-  var animation: CAAnimation!
+  var animation: CAAnimation?
   var endPoint: CGFloat = 0.0
 
   func performAnimation() {
     removeAllAnimations()
-    addAnimation(animation, forKey: "strokeEnd")
+    if let animation = animation {
+      addAnimation(animation, forKey: "strokeEnd")
+    }
   }
 }
 
@@ -32,13 +34,15 @@ class MonitorChart: UIView {
 
   private var currentAnimationIndex = 0
   private var chartLayers: [MonitorChartLayer] = []
+  private let borderLayer = MonitorChartLayer()
 
   func setUpChartSegments(minValue: Double, maxValue: Double, segments: [MonitorChartSegment]) {
     chartLayers.removeAll()
     let totalValueRange = maxValue - minValue
     let lineWidth = CGFloat(55)
-    let arcCenter = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0)
-    let circlePath = UIBezierPath(arcCenter: arcCenter, radius: (frame.size.width - lineWidth - 1)/2, startAngle: CGFloat(-M_PI), endAngle: CGFloat(0), clockwise: true)
+    let arcCenter = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0 + 1)
+    let radius = frame.size.width / 2
+    let circlePath = UIBezierPath(arcCenter: arcCenter, radius: radius - lineWidth / 2, startAngle: CGFloat(-M_PI), endAngle: CGFloat(0), clockwise: true)
 
     for segment in segments {
       let circleLayer = MonitorChartLayer()
@@ -63,6 +67,21 @@ class MonitorChart: UIView {
 
       chartLayers.append(circleLayer)
     }
+
+    let borderPath = UIBezierPath()
+    borderPath.moveToPoint(CGPoint(x: arcCenter.x - radius + lineWidth - 1, y: arcCenter.y))
+    borderPath.addArcWithCenter(CGPoint(x: arcCenter.x, y: arcCenter.y), radius: radius - lineWidth, startAngle: CGFloat(-M_PI), endAngle: 0, clockwise: true)
+    borderPath.addLineToPoint(CGPoint(x: arcCenter.x + radius, y: arcCenter.y))
+    borderPath.addArcWithCenter(CGPoint(x: arcCenter.x, y: arcCenter.y), radius: radius, startAngle: 0, endAngle: CGFloat(-M_PI), clockwise: false)
+    borderPath.addLineToPoint(CGPoint(x: arcCenter.x - radius + lineWidth - 1, y: arcCenter.y))
+    borderPath.closePath()
+
+    borderLayer.path = borderPath.CGPath
+    borderLayer.fillColor = UIColor.clearColor().CGColor
+    borderLayer.strokeColor = UIColor.grayColor().CGColor
+    borderLayer.lineWidth = 1
+    borderLayer.strokeEnd = 1.0
+    layer.addSublayer(borderLayer)
   }
 
   override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
@@ -87,6 +106,7 @@ class MonitorChart: UIView {
       $0.strokeEnd = 0
       layer.addSublayer($0)
     }
+    borderLayer.performAnimation()
     chartLayers.first?.performAnimation()
   }
 }
