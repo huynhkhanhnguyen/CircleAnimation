@@ -61,6 +61,12 @@ class MonitorChart: UIView {
   private let borderLayer = MonitorChartLayer()
 
   func setUpChartWithSegments(segments: [MonitorChartSegment], actualValue: Double, minValue: Double, maxValue: Double, saleQuota: Double) {
+    if let sublayers = layer.sublayers {
+      for chartLayer in sublayers {
+        chartLayer.removeFromSuperlayer()
+      }
+    }
+
     actual = actualValue
     min = minValue
     max = maxValue
@@ -80,6 +86,7 @@ class MonitorChart: UIView {
   }
 
   override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+    if currentAnimationIndex >= chartLayers.count { return }
     CATransaction.begin()
     CATransaction.setDisableActions(true)
     chartLayers[currentAnimationIndex].strokeEnd = chartLayers[currentAnimationIndex].endPoint
@@ -96,9 +103,7 @@ class MonitorChart: UIView {
 
   func drawWithAnimation() {
     for chartLayer in chartLayers {
-      if let index = layer.sublayers?.indexOf(chartLayer) {
-        layer.sublayers?.removeAtIndex(index)
-      }
+      chartLayer.removeFromSuperlayer()
     }
     currentAnimationIndex = 0
     chartLayers.forEach {
