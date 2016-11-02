@@ -28,9 +28,8 @@ class ViewController: UIViewController {
     let monitorSegment3 = MonitorChartSegment(startValue: 900, endValue: 1800, color: UIColor.greenColor())
 
     view.addSubview(chart)
-    chart.setUpChartSegments(0.0, maxValue: 1800, segments: [monitorSegment1, monitorSegment2, monitorSegment3])
+    chart.setUpChartWithSegments([monitorSegment1, monitorSegment2, monitorSegment3], actualValue: 300, minValue: 0, maxValue: 1800, saleQuota: 1500)
     chart.drawWithAnimation()
-
   }
 
   @IBAction func redrawButtonPressed(sender: AnyObject) {

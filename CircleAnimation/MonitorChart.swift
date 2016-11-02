@@ -53,10 +53,20 @@ class MonitorChart: UIView {
   private var chartLayers: [MonitorChartLayer] = []
   private var arcCenter = CGPointZero
   private var radius: CGFloat = 0
+  private var actual: Double = 0
+  private var min: Double = 0
+  private var max: Double = 0
+  private var quota: Double = 0
+  private let pointerLayer = CAShapeLayer()
   private let borderLayer = MonitorChartLayer()
 
-  func setUpChartSegments(minValue: Double, maxValue: Double, segments: [MonitorChartSegment]) {
+  func setUpChartWithSegments(segments: [MonitorChartSegment], actualValue: Double, minValue: Double, maxValue: Double, saleQuota: Double) {
+    actual = actualValue
+    min = minValue
+    max = maxValue
+    quota = saleQuota
     chartLayers.removeAll()
+
     arcCenter = CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0 + 1)
     radius = frame.size.width / 2
     let circlePath = UIBezierPath(arcCenter: arcCenter, radius: radius - lineWidth / 2, startAngle: CGFloat(-M_PI), endAngle: CGFloat(0), clockwise: true)
@@ -78,7 +88,8 @@ class MonitorChart: UIView {
     if currentAnimationIndex < chartLayers.count {
       chartLayers[currentAnimationIndex].performAnimation()
     } else {
-      addBorder()
+      addBorderAndQuota()
+      addPointer()
     }
   }
 
@@ -111,13 +122,44 @@ class MonitorChart: UIView {
     return animation
   }
 
-  private func addBorder() {
+  private func addPointer() {
+    let pointerRadius = CGFloat(10)
+    let pointerPath = UIBezierPath()
+    pointerPath.addArcWithCenter(arcCenter, radius: pointerRadius, startAngle: 0, endAngle: CGFloat(2.0 * M_PI), clockwise: true)
+
+    pointerPath.moveToPoint(arcCenter)
+    pointerPath.lineWidth = 2
+    let radiusValue = radius - pointerRadius
+    let minMaxGap = (max - min)
+    let radian = (actual - minMaxGap) / minMaxGap * M_PI
+    let posX = arcCenter.x + CGFloat(cos(radian)) * radiusValue
+    let posY = arcCenter.y + CGFloat(sin(radian)) * radiusValue
+    pointerPath.addLineToPoint(CGPoint(x: posX, y: posY))
+
+    pointerLayer.path = pointerPath.CGPath
+    pointerLayer.strokeColor = UIColor.blackColor().CGColor
+    pointerLayer.lineWidth = 3
+    pointerLayer.fillColor = UIColor.blackColor().CGColor
+    pointerLayer.removeFromSuperlayer()
+    layer.addSublayer(pointerLayer)
+  }
+
+  private func addBorderAndQuota() {
     let borderPath = UIBezierPath()
     borderPath.moveToPoint(CGPoint(x: arcCenter.x - radius + lineWidth - 1, y: arcCenter.y))
     borderPath.addArcWithCenter(CGPoint(x: arcCenter.x, y: arcCenter.y), radius: radius - lineWidth, startAngle: CGFloat(-M_PI), endAngle: 0, clockwise: true)
     borderPath.addLineToPoint(CGPoint(x: arcCenter.x + radius, y: arcCenter.y))
     borderPath.addArcWithCenter(CGPoint(x: arcCenter.x, y: arcCenter.y), radius: radius, startAngle: 0, endAngle: CGFloat(-M_PI), clockwise: false)
     borderPath.addLineToPoint(CGPoint(x: arcCenter.x - radius + lineWidth - 1, y: arcCenter.y))
+
+    let radian = (quota - (max - min)) / (max - min) * M_PI
+    let quotaStartX = arcCenter.x + CGFloat(cos(radian)) * (radius - lineWidth)
+    let quotaStartY = arcCenter.y + CGFloat(sin(radian)) * (radius - lineWidth)
+    let quotaEndX = arcCenter.x + CGFloat(cos(radian)) * (radius - 10)
+    let quotaEndY = arcCenter.y + CGFloat(sin(radian)) * (radius - 10)
+    borderPath.moveToPoint(CGPoint(x: quotaStartX, y: quotaStartY))
+    borderPath.addLineToPoint(CGPoint(x: quotaEndX, y: quotaEndY))
+
     borderPath.closePath()
 
     borderLayer.path = borderPath.CGPath
@@ -125,6 +167,7 @@ class MonitorChart: UIView {
     borderLayer.strokeColor = UIColor.grayColor().CGColor
     borderLayer.lineWidth = 1
     borderLayer.strokeEnd = 1.0
+    borderLayer.removeFromSuperlayer()
     layer.addSublayer(borderLayer)
   }
 }
