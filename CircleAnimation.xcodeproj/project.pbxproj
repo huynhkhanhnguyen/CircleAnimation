@@ -13,6 +13,8 @@
 		CB65CF5C1DC77AF600B7F9BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB65CF5B1DC77AF600B7F9BC /* Assets.xcassets */; };
 		CB65CF5F1DC77AF600B7F9BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB65CF5D1DC77AF600B7F9BC /* LaunchScreen.storyboard */; };
 		CB65CF671DC77BC000B7F9BC /* MonitorChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB65CF661DC77BC000B7F9BC /* MonitorChart.swift */; };
+		CB7FB5AC1DCA3B39001D5C56 /* SaleMonitorChartView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB7FB5AB1DCA3B39001D5C56 /* SaleMonitorChartView.xib */; };
+		CB7FB5AE1DCA3B56001D5C56 /* SaleMonitorChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7FB5AD1DCA3B56001D5C56 /* SaleMonitorChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		CB65CF5E1DC77AF600B7F9BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CB65CF601DC77AF600B7F9BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB65CF661DC77BC000B7F9BC /* MonitorChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorChart.swift; sourceTree = "<group>"; };
+		CB7FB5AB1DCA3B39001D5C56 /* SaleMonitorChartView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaleMonitorChartView.xib; sourceTree = "<group>"; };
+		CB7FB5AD1DCA3B56001D5C56 /* SaleMonitorChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaleMonitorChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				CB65CF5D1DC77AF600B7F9BC /* LaunchScreen.storyboard */,
 				CB65CF601DC77AF600B7F9BC /* Info.plist */,
 				CB65CF661DC77BC000B7F9BC /* MonitorChart.swift */,
+				CB7FB5AB1DCA3B39001D5C56 /* SaleMonitorChartView.xib */,
+				CB7FB5AD1DCA3B56001D5C56 /* SaleMonitorChartView.swift */,
 			);
 			path = CircleAnimation;
 			sourceTree = "<group>";
@@ -125,6 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB7FB5AC1DCA3B39001D5C56 /* SaleMonitorChartView.xib in Resources */,
 				CB65CF5F1DC77AF600B7F9BC /* LaunchScreen.storyboard in Resources */,
 				CB65CF5C1DC77AF600B7F9BC /* Assets.xcassets in Resources */,
 				CB65CF5A1DC77AF600B7F9BC /* Main.storyboard in Resources */,
@@ -141,6 +148,7 @@
 				CB65CF571DC77AF600B7F9BC /* ViewController.swift in Sources */,
 				CB65CF671DC77BC000B7F9BC /* MonitorChart.swift in Sources */,
 				CB65CF551DC77AF600B7F9BC /* AppDelegate.swift in Sources */,
+				CB7FB5AE1DCA3B56001D5C56 /* SaleMonitorChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +304,7 @@
 				CB65CF651DC77AF600B7F9BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
