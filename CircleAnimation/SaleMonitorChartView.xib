@@ -93,7 +93,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qab-Xt-ANh" userLabel="Legend Values">
-                    <rect key="frame" x="10" y="280" width="350" height="30"/>
+                    <rect key="frame" x="10" y="279" width="350" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axO-js-MSQ">
                             <rect key="frame" x="15" y="8" width="50" height="14"/>
@@ -138,22 +138,22 @@
                         <constraint firstItem="zjr-hv-dgt" firstAttribute="centerY" secondItem="9wO-m1-KOP" secondAttribute="centerY" id="gaT-ik-Ufp"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="color" keyPath="borderUIColor">
+                        <userDefinedRuntimeAttribute type="color" keyPath="layer.borderUIColor">
                             <color key="value" red="0.76078431372549016" green="0.76078431372549016" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
                         </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                             <integer key="value" value="1"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* dollar figures in thousands" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUk-gj-NkI">
-                    <rect key="frame" x="233" y="320" width="127" height="14"/>
+                    <rect key="frame" x="233" y="319" width="127" height="14"/>
                     <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="10"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fol-hG-r0p" userLabel="Chart View" customClass="MonitorChart" customModule="CircleAnimation" customModuleProvider="target">
                     <rect key="frame" x="35" y="80" width="300" height="300"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="RNA-J9-HYq"/>
                         <constraint firstAttribute="height" constant="300" id="asb-qd-eza"/>
@@ -183,7 +183,7 @@
                 <constraint firstItem="Fol-hG-r0p" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="gVB-zO-biR"/>
                 <constraint firstItem="9wO-m1-KOP" firstAttribute="trailing" secondItem="gSj-b6-T0C" secondAttribute="trailing" id="gmH-Fu-TNb"/>
                 <constraint firstItem="9wO-m1-KOP" firstAttribute="leading" secondItem="gSj-b6-T0C" secondAttribute="leading" id="kEy-nY-6Qc"/>
-                <constraint firstItem="Qab-Xt-ANh" firstAttribute="top" secondItem="yDZ-Lp-erl" secondAttribute="bottom" id="pWM-KO-d5x"/>
+                <constraint firstItem="Qab-Xt-ANh" firstAttribute="top" secondItem="yDZ-Lp-erl" secondAttribute="bottom" constant="-1" id="pWM-KO-d5x"/>
                 <constraint firstItem="6zm-VJ-kcg" firstAttribute="trailing" secondItem="pAM-U8-YKZ" secondAttribute="trailing" id="r2q-Mn-to6"/>
                 <constraint firstItem="Tgp-pR-wcb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="rTE-fr-aI5"/>
                 <constraint firstItem="bUk-gj-NkI" firstAttribute="trailing" secondItem="Qab-Xt-ANh" secondAttribute="trailing" id="ruA-UT-oVA"/>
