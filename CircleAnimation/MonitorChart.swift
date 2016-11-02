@@ -61,6 +61,7 @@ class MonitorChart: UIView {
   private let borderLayer = MonitorChartLayer()
 
   func setUpChartWithSegments(segments: [MonitorChartSegment], actualValue: Double, minValue: Double, maxValue: Double, saleQuota: Double) {
+    backgroundColor = UIColor.grayColor()
     actual = actualValue
     min = minValue
     max = maxValue
@@ -90,6 +91,7 @@ class MonitorChart: UIView {
     } else {
       addBorderAndQuota()
       addPointer()
+      addLabels()
     }
   }
 
@@ -106,6 +108,41 @@ class MonitorChart: UIView {
     }
     borderLayer.performAnimation()
     chartLayers.first?.performAnimation()
+  }
+
+  private func addLabels() {
+    let padding: CGFloat = 10
+    let minLabel = UILabel()
+    minLabel.text = "$\(min)"
+    minLabel.sizeToFit()
+    minLabel.frame.origin = CGPoint(x: arcCenter.x - radius + lineWidth + padding, y: arcCenter.y - minLabel.frame.size.height)
+
+    let maxLabel = UILabel()
+    maxLabel.text = "$\(max)"
+    maxLabel.sizeToFit()
+    maxLabel.frame.origin = CGPoint(x: arcCenter.x + radius - lineWidth - maxLabel.frame.size.width - padding, y: arcCenter.y - maxLabel.frame.size.height)
+
+    let middleLabel = UILabel()
+    middleLabel.text = "$\((max - min))"
+    middleLabel.sizeToFit()
+    middleLabel.frame.origin = CGPoint(x: arcCenter.x - middleLabel.frame.size.width / 2, y: arcCenter.y - radius + lineWidth + padding)
+
+    let quotaLabel = UILabel()
+    quotaLabel.text = "Quota \n $640"
+    quotaLabel.numberOfLines = 2
+    quotaLabel.sizeToFit()
+    let radian = (quota - (max - min)) / (max - min) * M_PI
+    let quotaEndX = arcCenter.x + CGFloat(cos(radian)) * (radius)
+    let quotaEndY = arcCenter.y + CGFloat(sin(radian)) * (radius) - 30
+    quotaLabel.frame = CGRect(origin: CGPoint(x: quotaEndX, y: quotaEndY), size: quotaLabel.frame.size)
+
+    let actualLabel = UILabel()
+    actualLabel.text = "Actual \n $350"
+    actualLabel.numberOfLines = 2
+    actualLabel.sizeToFit()
+    actualLabel.frame.origin = CGPoint(x: arcCenter.x - actualLabel.frame.size.width / 2, y: arcCenter.y - 60)
+
+    [minLabel, maxLabel, middleLabel, quotaLabel, actualLabel].forEach { addSubview($0) }
   }
 
   private func createStrokeEndAnimationForSegment(segment: MonitorChartSegment, minValue: Double, maxValue: Double) -> CABasicAnimation {
