@@ -48,6 +48,7 @@ class MonitorChart: UIView {
   var circleLayer: CAShapeLayer!
   var lineWidth = CGFloat(50)
   var animationDuration = 1.5 //seconds
+  var isDrawnInnerRing = false
 
   private var currentAnimationIndex = 0
   private var chartLayers: [MonitorChartLayer] = []
@@ -120,6 +121,7 @@ class MonitorChart: UIView {
     label.text = text
     label.numberOfLines = noOfLines
     label.font = font
+    label.textAlignment = .Center
     label.sizeToFit()
 
     return label
@@ -127,15 +129,15 @@ class MonitorChart: UIView {
 
   private func addLabels() {
     let padding: CGFloat = 10
-    
+    let extraSpace = isDrawnInnerRing ? lineWidth : 0
+
     let minLabel = createLabelWithText("$\(min)")
-    minLabel.frame.origin = CGPoint(x: arcCenter.x - radius + lineWidth + padding, y: arcCenter.y - minLabel.frame.size.height)
-
     let maxLabel = createLabelWithText("$\(max)")
-    maxLabel.frame.origin = CGPoint(x: arcCenter.x + radius - lineWidth - maxLabel.frame.size.width - padding, y: arcCenter.y - maxLabel.frame.size.height)
-
     let middleLabel = createLabelWithText("$\((max - min))")
-    middleLabel.frame.origin = CGPoint(x: arcCenter.x - middleLabel.frame.size.width / 2, y: arcCenter.y - radius + lineWidth + padding)
+
+    minLabel.frame.origin = CGPoint(x: arcCenter.x - radius + extraSpace + padding, y: arcCenter.y - minLabel.frame.size.height)
+    maxLabel.frame.origin = CGPoint(x: arcCenter.x + radius - extraSpace - maxLabel.frame.size.width - padding / 2, y: arcCenter.y - maxLabel.frame.size.height)
+    middleLabel.frame.origin = CGPoint(x: arcCenter.x - middleLabel.frame.size.width / 2, y: arcCenter.y - radius + extraSpace + padding)
 
     let actualLabel = createLabelWithText("Actual \n $\(actual)", noOfLines: 2)
     actualLabel.frame.origin = CGPoint(x: arcCenter.x - actualLabel.frame.size.width / 2, y: arcCenter.y - 60)
@@ -183,6 +185,10 @@ class MonitorChart: UIView {
     pointerLayer.lineWidth = 3
     pointerLayer.fillColor = UIColor.blackColor().CGColor
     pointerLayer.removeFromSuperlayer()
+
+    //---	`
+
+    //---Rotation
     layer.addSublayer(pointerLayer)
   }
 
